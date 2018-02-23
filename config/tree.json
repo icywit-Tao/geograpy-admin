@@ -1,0 +1,1 @@
+{"id":10001,"category":{"root":{"id":"root","name":"目录","children":["junior","senior"],"parent":"","childrentype":""},"junior":{"id":"junior","name":"初中部分","children":[],"parent":"root","childrentype":""},"senior":{"id":"senior","name":"高中部分","children":[],"parent":"root","childrentype":""}}}
