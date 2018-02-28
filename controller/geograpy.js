@@ -26,8 +26,35 @@ class CdnMonitor{
         fs.writeFileSync(pathConfig,JSON.stringify(data));
         res.json(data.category);
     }
+    addResource(req,res){
+        try{
+            let data = JSON.parse(fs.readFileSync(pathConfig));
+            let category = data.category;
+            let files =req.files;
+            let parent = req.body.parent
+            let filefolder = path.join(__dirname, '../dist/pics/',parent);
+            fs.existsSync(filefolder) || fs.mkdirSync(filefolder);
+            let resources=[];
+            for(let key in files){
+                if(files.hasOwnProperty(key)){
+                    let file = files[key];
+                    let data = fs.readFileSync(file.path);
+                    fs.writeFileSync(filefolder+'/'+file.name,data);
+                    resources.push({
+                        file:file.name,
+                        desc:req.body['desc'+key]||''
+                    })
+                }
+            }
+            category[parent].children = category[parent].children.concat(resources);
+            fs.writeFileSync(pathConfig,JSON.stringify(data));
+            res.json(data.category);
+        }catch(e){
+            console.log(e);
+            res.json(data.category);
+        }
+    }
     delSession(req,res){
-        console.log(this);
         try{
         let data = JSON.parse(fs.readFileSync(pathConfig));
         let category = data.category;
@@ -41,7 +68,8 @@ class CdnMonitor{
         }
     }
     delChildren(id,category){
-        category[id].children.forEach(id=>{
+        let node =category[id];
+        node.childrentype==='1'&& node.children.forEach(id=>{
             this.delChildren(id,category);
         })
         delete category[id];
