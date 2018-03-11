@@ -42,7 +42,8 @@ class CdnMonitor{
                     fs.writeFileSync(filefolder+'/'+file.name,data);
                     resources.push({
                         file:file.name,
-                        desc:req.body['desc'+key]||''
+                        desc:req.body['desc'+key]||'',
+                        type:req.body.type
                     })
                 }
             }
