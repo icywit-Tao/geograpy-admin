@@ -68,6 +68,28 @@ class CdnMonitor{
             console.log(e);
         }
     }
+    delResource(req,res){
+        try{
+            let data = JSON.parse(fs.readFileSync(pathConfig));
+            let category = data.category;
+            let id =req.body.id;
+            let file =req.body.file;
+            let children = category[id].children;
+            let index =-1;
+            for (let i = 0,len=children.length;i<len;i++){
+                if(children[i].file === file){
+                    index =i;
+                    break;
+                }
+            }
+            console.log(index);
+            children.splice(index,1);
+            fs.writeFileSync(pathConfig,JSON.stringify(data));
+            res.json(data.category);
+        }catch(e){
+            console.log(e);
+        }
+    }
     delChildren(id,category){
         let node =category[id];
         node.childrentype==='1'&& node.children.forEach(id=>{

@@ -9,6 +9,7 @@ var multipartyMiddleware = multiparty();
 router.post('/getCategory', Geograpy.getCategory);
 router.post('/addSession',Geograpy.addSession);
 router.post('/delSession',Geograpy.delSession);
+router.post('/delResource',Geograpy.delResource);
 router.post('/addResource',multipartyMiddleware,Geograpy.addResource);
 
 module.exports = router;
